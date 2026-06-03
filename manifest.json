@@ -1,6 +1,6 @@
 {
-  "name": "Meu Plano de Treino 2026",
-  "short_name": "Meu Treino 2026",
+  "name": "Meu Plano de Treino 2026 V2",
+  "short_name": "Treino 2026 V2",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
