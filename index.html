@@ -114,10 +114,27 @@ footer {
   padding: 20px;
 }
 
-/* Campo de peso */
-.peso-input {
-  width: 80px;
-  padding: 7px 8px;
+
+/* ================================
+   CAMPO DE PESO
+   ================================ */
+
+.peso-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.peso-valor {
+  display: inline-block;
+  min-width: 40px;
+}
+
+.peso-editar {
+  display: none;
+  width: 65px;
+  padding: 6px 7px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -125,7 +142,121 @@ footer {
   color: var(--text);
 }
 
-.peso-input:focus {
+.peso-editar:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Botões de edição minimalistas */
+
+.peso-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.peso-editar-btn {
+  color: #888;
+}
+
+.peso-editar-btn:hover {
+  color: var(--primary);
+}
+
+.peso-salvar {
+  display: none;
+  color: var(--secondary);
+  font-size: 16px;
+}
+
+.peso-container.editando .peso-valor {
+  display: none;
+}
+
+.peso-container.editando .peso-editar {
+  display: inline-block;
+}
+
+.peso-container.editando .peso-editar-btn {
+  display: none;
+}
+
+.peso-container.editando .peso-salvar {
+  display: inline-flex;
+}
+
+
+/* ================================
+   EVOLUÇÃO
+   ================================ */
+
+.peso-evolucao {
+  display: none;
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.peso-evolucao.visivel {
+  display: inline-block;
+}
+
+
+/* ================================
+   SETA DAS ANOTAÇÕES
+   ================================ */
+
+.info-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0 4px;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.info-btn.aberto {
+  transform: rotate(180deg);
+}
+
+
+/* ================================
+   ANOTAÇÕES
+   ================================ */
+
+.anotacao-row {
+  display: none;
+}
+
+.anotacao-row.aberta {
+  display: table-row;
+}
+
+.anotacao-container {
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.anotacao-input {
+  width: 100%;
+  min-height: 55px;
+  resize: vertical;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: #fff;
+}
+
+.anotacao-input:focus {
   outline: none;
   border-color: var(--primary);
 }
@@ -146,18 +277,209 @@ footer {
   <h2>Empurrar (Peito • Ombros • Tríceps)</h2>
   <div class="table-wrapper">
 <table>
-      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th></tr>
-      <tr><td>Peitoral</td><td>Supino reto com barra</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-supino-reto-barra" placeholder="kg"></td><td>6–10</td><td>2–3 min</td></tr>
-      <tr><td>Peitoral</td><td>Supino inclinado com halteres</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-supino-inclinado-halteres" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Peitoral</td><td>Crucifixo máquina</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-crucifixo-maquina" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Ombros</td><td>Desenvolvimento máquina</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-desenvolvimento-maquina" placeholder="kg"></td><td>6–10</td><td>2–3 min</td></tr>
-      <tr><td>Ombros</td><td>Elevação unilateral polia</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-elevacao-unilateral-polia" placeholder="kg"></td><td>6–10</td><td>1–2 min</td></tr>
-      <tr><td>Tríceps</td><td>Tríceps francês</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-triceps-frances" placeholder="kg"></td><td>8–12</td><td>1–2 min</td></tr>
-      <tr><td>Tríceps</td><td>Tríceps barra polia</td><td>3</td><td><input class="peso-input" type="text" data-peso="segunda-triceps-barra-polia" placeholder="kg"></td><td>8–12</td><td>1–2 min</td></tr>
+      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th><th></th></tr>
+
+      <tr>
+        <td>Peitoral</td>
+        <td>Supino reto com barra</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-supino-reto-barra">—</span>
+
+            <input class="peso-editar"
+                   type="text"
+                   data-peso="segunda-supino-reto-barra"
+                   placeholder="kg">
+
+            <button class="peso-btn peso-editar-btn"
+                    type="button"
+                    aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>6–10</td>
+        <td>2–3 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+
+      <tr class="anotacao-row">
+        <td colspan="7">
+          <div class="anotacao-container">
+            <textarea class="anotacao-input"
+                      data-anotacao="segunda-supino-reto-barra"
+                      placeholder="Digite uma anotação sobre este exercício..."></textarea>
+          </div>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td>Peitoral</td>
+        <td>Supino inclinado com halteres</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-supino-inclinado-halteres">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-supino-inclinado-halteres" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>8–12</td>
+        <td>2–3 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row">
+        <td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-supino-inclinado-halteres" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td>
+      </tr>
+
+
+      <tr>
+        <td>Peitoral</td>
+        <td>Crucifixo máquina</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-crucifixo-maquina">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-crucifixo-maquina" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>10–15</td>
+        <td>1–2 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-crucifixo-maquina" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+
+      <tr>
+        <td>Ombros</td>
+        <td>Desenvolvimento máquina</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-desenvolvimento-maquina">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-desenvolvimento-maquina" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>6–10</td>
+        <td>2–3 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-desenvolvimento-maquina" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+
+      <tr>
+        <td>Ombros</td>
+        <td>Elevação unilateral polia</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-elevacao-unilateral-polia">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-elevacao-unilateral-polia" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>6–10</td>
+        <td>1–2 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-elevacao-unilateral-polia" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+
+      <tr>
+        <td>Tríceps</td>
+        <td>Tríceps francês</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-triceps-frances">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-triceps-frances" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>8–12</td>
+        <td>1–2 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-triceps-frances" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+
+      <tr>
+        <td>Tríceps</td>
+        <td>Tríceps barra polia</td>
+        <td>3</td>
+        <td>
+          <div class="peso-container">
+            <span class="peso-valor" data-peso-valor="segunda-triceps-barra-polia">—</span>
+            <input class="peso-editar" type="text" data-peso="segunda-triceps-barra-polia" placeholder="kg">
+            <button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+            </button>
+            <button class="peso-btn peso-salvar" type="button">✓</button>
+            <span class="peso-evolucao"></span>
+          </div>
+        </td>
+        <td>8–12</td>
+        <td>1–2 min</td>
+        <td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="segunda-triceps-barra-polia" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
     </table>
   </div>
   <div class="card-footer">🚶 Cardio: 25 min moderado</div>
 </div>
+
 
 <!-- TERÇA -->
 <div class="card">
@@ -165,36 +487,152 @@ footer {
   <h2>Puxar (Costas • Bíceps • Antebraço)</h2>
   <div class="table-wrapper">
 <table>
-      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th></tr>
-      <tr><td>Costas</td><td>Puxada alta ou barra fixa</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-puxada-alta-barra-fixa" placeholder="kg"></td><td>6–10</td><td>2–3 min</td></tr>
-      <tr><td>Costas</td><td>Remada curvada com barra</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-remada-curvada-barra" placeholder="kg"></td><td>6–10</td><td>2–3 min</td></tr>
-      <tr><td>Costas</td><td>Remada sentada na polia</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-remada-sentada-polia" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Ombro post.</td><td>Crucifixo inverso na máquina</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-crucifixo-inverso-maquina" placeholder="kg"></td><td>12–15</td><td>1–2 min</td></tr>
-      <tr><td>Bíceps</td><td>Rosca scott barra w</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-rosca-scott-barra-w" placeholder="kg"></td><td>8–12</td><td>1–2 min</td></tr>
-      <tr><td>Bíceps</td><td>Rosca martelo sentado</td><td>3</td><td><input class="peso-input" type="text" data-peso="terca-rosca-martelo-sentado" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Antebraço</td><td>Rosca inversa (opcional)</td><td>2</td><td><input class="peso-input" type="text" data-peso="terca-rosca-inversa" placeholder="kg"></td><td>12–15</td><td>1–2 min</td></tr>
+      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th><th></th></tr>
+
+      <tr>
+        <td>Costas</td>
+        <td>Puxada alta ou barra fixa</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-puxada-alta-barra-fixa">—</span><input class="peso-editar" type="text" data-peso="terca-puxada-alta-barra-fixa" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>6–10</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-puxada-alta-barra-fixa" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Costas</td>
+        <td>Remada curvada com barra</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-remada-curvada-barra">—</span><input class="peso-editar" type="text" data-peso="terca-remada-curvada-barra" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>6–10</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-remada-curvada-barra" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Costas</td>
+        <td>Remada sentada na polia</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-remada-sentada-polia">—</span><input class="peso-editar" type="text" data-peso="terca-remada-sentada-polia" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-remada-sentada-polia" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Ombro post.</td>
+        <td>Crucifixo inverso na máquina</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-crucifixo-inverso-maquina">—</span><input class="peso-editar" type="text" data-peso="terca-crucifixo-inverso-maquina" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-crucifixo-inverso-maquina" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Bíceps</td>
+        <td>Rosca scott barra w</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-rosca-scott-barra-w">—</span><input class="peso-editar" type="text" data-peso="terca-rosca-scott-barra-w" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-rosca-scott-barra-w" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Bíceps</td>
+        <td>Rosca martelo sentado</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-rosca-martelo-sentado">—</span><input class="peso-editar" type="text" data-peso="terca-rosca-martelo-sentado" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-rosca-martelo-sentado" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Antebraço</td>
+        <td>Rosca inversa (opcional)</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="terca-rosca-inversa">—</span><input class="peso-editar" type="text" data-peso="terca-rosca-inversa" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="terca-rosca-inversa" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
     </table>
   </div>
  <div class="card-footer">🚶 Cardio: 25 min moderado</div>
 </div>
-  
+
+
 <!-- QUARTA -->
 <div class="card">
   <span class="badge">Quarta • LEGS</span>
   <h2>Inferiores (Principal)</h2>
   <div class="table-wrapper">
     <table>
-      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th></tr>
-      <tr><td>Quadríceps</td><td>Agachamento Smith ou sumô</td><td>2</td><td><input class="peso-input" type="text" data-peso="quarta-agachamento-smith-sumo" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Quadríceps</td><td>Leg press</td><td>2</td><td><input class="peso-input" type="text" data-peso="quarta-leg-press" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Quadríceps</td><td>Cadeira extensora</td><td>2</td><td><input class="peso-input" type="text" data-peso="quarta-cadeira-extensora" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Posterior</td><td>Cadeira flexora</td><td>2</td><td><input class="peso-input" type="text" data-peso="quarta-cadeira-flexora" placeholder="kg"></td><td>10–15</td><td>2 min</td></tr>
-      <tr><td>Posterior</td><td>Mesa flexora</td><td>2</td><td><input class="peso-input" type="text" data-peso="quarta-mesa-flexora" placeholder="kg"></td><td>10–15</td><td>2 min</td></tr>
-      <tr><td>Panturrilha</td><td>Panturrilha em pé</td><td>4</td><td><input class="peso-input" type="text" data-peso="quarta-panturrilha-pe" placeholder="kg"></td><td>12–20</td><td>1 min</td></tr>
-      <tr><td>Abdômen</td><td>Abdominal</td><td>3</td><td><input class="peso-input" type="text" data-peso="quarta-abdominal" placeholder="kg"></td><td>8-12</td><td>1 min</td></tr>
+      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th><th></th></tr>
+
+      <tr>
+        <td>Quadríceps</td>
+        <td>Agachamento Smith ou sumô</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-agachamento-smith-sumo">—</span><input class="peso-editar" type="text" data-peso="quarta-agachamento-smith-sumo" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-agachamento-smith-sumo" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Quadríceps</td>
+        <td>Leg press</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-leg-press">—</span><input class="peso-editar" type="text" data-peso="quarta-leg-press" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-leg-press" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Quadríceps</td>
+        <td>Cadeira extensora</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-cadeira-extensora">—</span><input class="peso-editar" type="text" data-peso="quarta-cadeira-extensora" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-cadeira-extensora" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Posterior</td>
+        <td>Cadeira flexora</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-cadeira-flexora">—</span><input class="peso-editar" type="text" data-peso="quarta-cadeira-flexora" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-cadeira-flexora" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Posterior</td>
+        <td>Mesa flexora</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-mesa-flexora">—</span><input class="peso-editar" type="text" data-peso="quarta-mesa-flexora" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-mesa-flexora" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Panturrilha</td>
+        <td>Panturrilha em pé</td>
+        <td>4</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-panturrilha-pe">—</span><input class="peso-editar" type="text" data-peso="quarta-panturrilha-pe" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–20</td><td>1 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-panturrilha-pe" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Abdômen</td>
+        <td>Abdominal</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="quarta-abdominal">—</span><input class="peso-editar" type="text" data-peso="quarta-abdominal" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8-12</td><td>1 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="quarta-abdominal" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
     </table>
   </div>
 </div>
+
 
 <!-- QUINTA -->
 <div class="card">
@@ -207,24 +645,83 @@ footer {
   </div>
 </div>
 
+
 <!-- SEXTA -->
 <div class="card">
   <span class="badge">Sexta • UPPER</span>
   <h2>Superiores</h2>
   <div class="table-wrapper">
     <table>
-      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th></tr>
-      <tr><td>Ombros</td><td>Elevação lateral</td><td>4</td><td><input class="peso-input" type="text" data-peso="sexta-elevacao-lateral" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Peitoral</td><td>Crucifixo polia alta</td><td>3</td><td><input class="peso-input" type="text" data-peso="sexta-crucifixo-polia-alta" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Peitoral</td><td>Supino reto</td><td>2</td><td><input class="peso-input" type="text" data-peso="sexta-supino-reto" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Costas</td><td>Puxada neutra</td><td>3</td><td><input class="peso-input" type="text" data-peso="sexta-puxada-neutra" placeholder="kg"></td><td>8–12</td><td>2–3 min</td></tr>
-      <tr><td>Ombro post.</td><td>Face pull</td><td>3</td><td><input class="peso-input" type="text" data-peso="sexta-face-pull" placeholder="kg"></td><td>12–15</td><td>1–2 min</td></tr>
-      <tr><td>Bíceps</td><td>Rosca direta polia</td><td>3</td><td><input class="peso-input" type="text" data-peso="sexta-rosca-direta-polia" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Tríceps</td><td>Tríceps corda</td><td>3</td><td><input class="peso-input" type="text" data-peso="sexta-triceps-corda" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
+      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th><th></th></tr>
+
+      <tr>
+        <td>Ombros</td>
+        <td>Elevação lateral</td>
+        <td>4</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-elevacao-lateral">—</span><input class="peso-editar" type="text" data-peso="sexta-elevacao-lateral" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-elevacao-lateral" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Peitoral</td>
+        <td>Crucifixo polia alta</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-crucifixo-polia-alta">—</span><input class="peso-editar" type="text" data-peso="sexta-crucifixo-polia-alta" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-crucifixo-polia-alta" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Peitoral</td>
+        <td>Supino reto</td>
+        <td>2</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-supino-reto">—</span><input class="peso-editar" type="text" data-peso="sexta-supino-reto" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-supino-reto" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Costas</td>
+        <td>Puxada neutra</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-puxada-neutra">—</span><input class="peso-editar" type="text" data-peso="sexta-puxada-neutra" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8–12</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-puxada-neutra" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Ombro post.</td>
+        <td>Face pull</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-face-pull">—</span><input class="peso-editar" type="text" data-peso="sexta-face-pull" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-face-pull" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Bíceps</td>
+        <td>Rosca direta polia</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-rosca-direta-polia">—</span><input class="peso-editar" type="text" data-peso="sexta-rosca-direta-polia" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-rosca-direta-polia" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Tríceps</td>
+        <td>Tríceps corda</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sexta-triceps-corda">—</span><input class="peso-editar" type="text" data-peso="sexta-triceps-corda" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sexta-triceps-corda" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
     </table>
   </div>
   <div class="card-footer">🚶 Cardio: 20 min moderado</div>
 </div>
+
 
 <!-- SÁBADO -->
 <div class="card">
@@ -232,17 +729,75 @@ footer {
   <h2>Inferiores (Leve)</h2>
   <div class="table-wrapper">
     <table>
-      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th></tr>
-      <tr><td>Quadríceps</td><td>Leg press unilateral</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-leg-press-unilateral" placeholder="kg"></td><td>12–15</td><td>2–3 min</td></tr>
-      <tr><td>Quadríceps</td><td>Cadeira extensora unilateral</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-cadeira-extensora-unilateral" placeholder="kg"></td><td>12–15</td><td>2–3 min</td></tr>
-      <tr><td>Posterior</td><td>Stiff</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-stiff" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Posterior</td><td>Mesa flexora</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-mesa-flexora" placeholder="kg"></td><td>10–15</td><td>1–2 min</td></tr>
-      <tr><td>Panturrilha</td><td>Panturrilha sentada</td><td>4</td><td><input class="peso-input" type="text" data-peso="sabado-panturrilha-sentada" placeholder="kg"></td><td>12–20</td><td>1 min</td></tr>
-      <tr><td>Core</td><td>Prancha</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-prancha" placeholder="kg"></td><td>30–60s</td><td>1 min</td></tr>
-      <tr><td>Abdômen</td><td>Abdominal máquina</td><td>3</td><td><input class="peso-input" type="text" data-peso="sabado-abdominal-maquina" placeholder="kg"></td><td>8-12</td><td>1 min</td></tr>
+      <tr><th>Grupo</th><th>Exercício</th><th>Séries</th><th>Peso</th><th>Reps</th><th>Descanso</th><th></th></tr>
+
+      <tr>
+        <td>Quadríceps</td>
+        <td>Leg press unilateral</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-leg-press-unilateral">—</span><input class="peso-editar" type="text" data-peso="sabado-leg-press-unilateral" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–15</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-leg-press-unilateral" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Quadríceps</td>
+        <td>Cadeira extensora unilateral</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-cadeira-extensora-unilateral">—</span><input class="peso-editar" type="text" data-peso="sabado-cadeira-extensora-unilateral" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–15</td><td>2–3 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-cadeira-extensora-unilateral" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Posterior</td>
+        <td>Stiff</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-stiff">—</span><input class="peso-editar" type="text" data-peso="sabado-stiff" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-stiff" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Posterior</td>
+        <td>Mesa flexora</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-mesa-flexora">—</span><input class="peso-editar" type="text" data-peso="sabado-mesa-flexora" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>10–15</td><td>1–2 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-mesa-flexora" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Panturrilha</td>
+        <td>Panturrilha sentada</td>
+        <td>4</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-panturrilha-sentada">—</span><input class="peso-editar" type="text" data-peso="sabado-panturrilha-sentada" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>12–20</td><td>1 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-panturrilha-sentada" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Core</td>
+        <td>Prancha</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-prancha">—</span><input class="peso-editar" type="text" data-peso="sabado-prancha" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>30–60s</td><td>1 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-prancha" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
+      <tr>
+        <td>Abdômen</td>
+        <td>Abdominal máquina</td>
+        <td>3</td>
+        <td><div class="peso-container"><span class="peso-valor" data-peso-valor="sabado-abdominal-maquina">—</span><input class="peso-editar" type="text" data-peso="sabado-abdominal-maquina" placeholder="kg"><button class="peso-btn peso-editar-btn" type="button" aria-label="Editar peso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="peso-btn peso-salvar" type="button">✓</button><span class="peso-evolucao"></span></div></td>
+        <td>8-12</td><td>1 min</td><td><button class="info-btn" type="button">▼</button></td>
+      </tr>
+      <tr class="anotacao-row"><td colspan="7"><div class="anotacao-container"><textarea class="anotacao-input" data-anotacao="sabado-abdominal-maquina" placeholder="Digite uma anotação sobre este exercício..."></textarea></div></td></tr>
+
     </table>
    </div>
-  </div> 
+  </div>
+
 
 <!-- DESCANSO -->
 <div class="card">
@@ -257,41 +812,229 @@ footer {
 Plano baseado em princípios de treino para naturais • Volume controlado
 </footer>
 
+
 <script>
-  /* ================================
-     SALVAMENTO DOS PESOS
-     ================================ */
 
-  const inputsPeso = document.querySelectorAll(".peso-input");
+/* ================================
+   SISTEMA DE PESOS E EVOLUÇÃO
+   ================================ */
 
-  inputsPeso.forEach(input => {
+const containersPeso = document.querySelectorAll(".peso-container");
 
-    const chave = "peso_" + input.dataset.peso;
+containersPeso.forEach(container => {
 
-    // Recupera o peso salvo anteriormente
+  const input = container.querySelector(".peso-editar");
+  const valor = container.querySelector(".peso-valor");
+  const botaoEditar = container.querySelector(".peso-editar-btn");
+  const botaoSalvar = container.querySelector(".peso-salvar");
+  const evolucao = container.querySelector(".peso-evolucao");
+
+  const chave = "peso_" + input.dataset.peso;
+  const chaveAnterior = "peso_anterior_" + input.dataset.peso;
+
+  function numeroPeso(valor) {
+    if (!valor) return NaN;
+
+    return parseFloat(
+      valor.replace(",", ".").replace(/[^\d.-]/g, "")
+    );
+  }
+
+  function mostrarPeso() {
+
     const valorSalvo = localStorage.getItem(chave);
 
-    if (valorSalvo !== null) {
+    if (valorSalvo !== null && valorSalvo !== "") {
+      valor.textContent = valorSalvo + " kg";
       input.value = valorSalvo;
+    } else {
+      valor.textContent = "—";
+      input.value = "";
     }
 
-    // Salva automaticamente quando o valor é alterado
-    input.addEventListener("input", function () {
-      localStorage.setItem(chave, this.value);
-    });
+    atualizarEvolucao();
+  }
+
+  function atualizarEvolucao() {
+
+    const pesoAtual = numeroPeso(localStorage.getItem(chave));
+    const pesoAnterior = numeroPeso(localStorage.getItem(chaveAnterior));
+
+    evolucao.classList.remove("visivel");
+    evolucao.textContent = "";
+
+    if (
+      !isNaN(pesoAtual) &&
+      !isNaN(pesoAnterior) &&
+      pesoAnterior > 0 &&
+      pesoAtual > pesoAnterior
+    ) {
+
+      const porcentagem =
+        ((pesoAtual - pesoAnterior) / pesoAnterior) * 100;
+
+      const porcentagemFormatada =
+        porcentagem.toLocaleString("pt-BR", {
+          maximumFractionDigits: 1
+        });
+
+      evolucao.textContent = "↑ " + porcentagemFormatada + "%";
+      evolucao.classList.add("visivel");
+    }
+  }
+
+  mostrarPeso();
+
+
+  /* Entrar no modo de edição */
+
+  botaoEditar.addEventListener("click", function () {
+
+    container.classList.add("editando");
+
+    input.focus();
+    input.select();
 
   });
 
 
-  /* ================================
-     SERVICE WORKER
-     ================================ */
+  /* Salvar peso */
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+  botaoSalvar.addEventListener("click", function () {
+
+    const novoPesoTexto = input.value.trim();
+    const novoPeso = numeroPeso(novoPesoTexto);
+
+    if (novoPesoTexto === "") {
+
+      localStorage.removeItem(chave);
+      localStorage.removeItem(chaveAnterior);
+
+      valor.textContent = "—";
+      evolucao.classList.remove("visivel");
+      evolucao.textContent = "";
+
+    } else if (!isNaN(novoPeso) && novoPeso > 0) {
+
+      const pesoAtualSalvo = localStorage.getItem(chave);
+
+      /*
+       * Só cria um peso anterior quando já existia
+       * um valor salvo anteriormente.
+       */
+      if (
+        pesoAtualSalvo !== null &&
+        pesoAtualSalvo !== ""
+      ) {
+
+        const pesoAnteriorAtual = numeroPeso(pesoAtualSalvo);
+
+        if (
+          !isNaN(pesoAnteriorAtual) &&
+          pesoAnteriorAtual !== novoPeso
+        ) {
+          localStorage.setItem(
+            chaveAnterior,
+            pesoAnteriorAtual
+          );
+        }
+      }
+
+      localStorage.setItem(chave, novoPesoTexto);
+
+      valor.textContent = novoPesoTexto + " kg";
+
+      atualizarEvolucao();
+
+    }
+
+    container.classList.remove("editando");
+
+  });
+
+
+  /* Enter salva */
+
+  input.addEventListener("keydown", function (event) {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      botaoSalvar.click();
+
+    }
+
+    if (event.key === "Escape") {
+
+      const valorSalvo = localStorage.getItem(chave);
+
+      input.value = valorSalvo || "";
+
+      container.classList.remove("editando");
+
+    }
+
+  });
+
+});
+
+
+/* ================================
+   SISTEMA DE ANOTAÇÕES
+   ================================ */
+
+const anotacoes = document.querySelectorAll(".anotacao-input");
+
+anotacoes.forEach(textarea => {
+
+  const chave = "anotacao_" + textarea.dataset.anotacao;
+
+  const valorSalvo = localStorage.getItem(chave);
+
+  if (valorSalvo !== null) {
+    textarea.value = valorSalvo;
   }
+
+  textarea.addEventListener("input", function () {
+
+    localStorage.setItem(chave, this.value);
+
+  });
+
+});
+
+
+/* ================================
+   ABRIR E FECHAR ANOTAÇÕES
+   ================================ */
+
+const botoesInfo = document.querySelectorAll(".info-btn");
+
+botoesInfo.forEach(botao => {
+
+  botao.addEventListener("click", function () {
+
+    const linhaExercicio = this.closest("tr");
+    const linhaAnotacao = linhaExercicio.nextElementSibling;
+
+    linhaAnotacao.classList.toggle("aberta");
+    this.classList.toggle("aberto");
+
+  });
+
+});
+
+
+/* ================================
+   SERVICE WORKER
+   ================================ */
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+
 </script>
 
 </body>
 </html>
-```
